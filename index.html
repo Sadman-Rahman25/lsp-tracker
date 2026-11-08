@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EC008C">
+<title>LSP Tracker</title>
+<meta name="description" content="LSP Tracker: টিকা, কৃমিনাশক ও খামারের কাজের হিসাব">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  html, body { height: 100%; margin: 0; background: #fff; }
+  /* The app lives on Google's servers; this page only frames it, so Google's
+     "created by a Google Apps Script user" bar isn't shown on top. */
+  #app { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  #wait { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+          font: 500 16px/1.4 "Hind Siliguri", "Noto Sans Bengali", Arial, sans-serif; color: #4A4D52; }
+  #wait .dot { width: 40px; height: 40px; border-radius: 50%; border: 4px solid #F6C6E1; border-top-color: #EC008C; animation: spin 0.9s linear infinite; }
+  #wait a { color: #B0006A; }
+  #wait .slow { visibility: hidden; font-size: 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { #wait .dot { animation: none; } }
+</style>
+</head>
+<body>
+  <div id="wait" role="status">
+    <div class="dot" aria-hidden="true"></div>
+    <div>LSP Tracker খোলা হচ্ছে…</div>
+    <div class="slow" id="slow">বেশি সময় লাগছে? <a id="direct" href="#">এখানে চাপুন</a></div>
+  </div>
+  <iframe id="app" title="LSP Tracker" allow="clipboard-write; fullscreen"></iframe>
+  <noscript><p style="padding:16px">LSP Tracker খুলতে <a href="https://script.google.com/macros/s/AKfycbzST04GxNlYNn0-K4L4fVgcv9MBKL7hIMvFT1VZJSUdAPLz9nTM3iS-ON1hjFSjcMxyAQ/exec">এখানে চাপুন</a>।</p></noscript>
+<script>
+  // Live app. Add ?dev to the address to open the developer copy (BRAC accounts only).
+  var LIVE = 'https://script.google.com/macros/s/AKfycbzST04GxNlYNn0-K4L4fVgcv9MBKL7hIMvFT1VZJSUdAPLz9nTM3iS-ON1hjFSjcMxyAQ/exec';
+  var DEV = 'https://script.google.com/a/macros/brac.net/s/AKfycbzqPnZNjgUG8HPzt6zBvFrUs6kPHD7X_1Xcb3n4LEiYZ27SAI-6SG1mnL27xKdqPDysWw/exec';
+  var url = /[?&]dev\b/.test(location.search) ? DEV : LIVE;
+  var frame = document.getElementById('app');
+  document.getElementById('direct').href = url;
+  frame.addEventListener('load', function () { document.getElementById('wait').hidden = true; });
+  setTimeout(function () { document.getElementById('slow').style.visibility = 'visible'; }, 12000);
+  frame.src = url;
+</script>
+</body>
+</html>
